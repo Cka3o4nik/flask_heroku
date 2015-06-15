@@ -1,17 +1,6 @@
-# ----------------------
-# Flask
-# ----------------------
-flask
-
-
-# ----------------------
-# Testing
-# ----------------------
-mock
-
-
-# ----------------------
-# Production Server
-# ----------------------
-gevent
-gunicorn
+Flask==0.10.1
+Flask-SQLAlchemy==2.0
+gunicorn==19.3.0
+Jinja2==2.7.3
+SQLAlchemy==1.0.5
+Werkzeug==0.10.4

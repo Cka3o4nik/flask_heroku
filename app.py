@@ -1,62 +1,37 @@
-"""
-Flask Documentation:     http://flask.pocoo.org/docs/
-Jinja2 Documentation:    http://jinja.pocoo.org/2/documentation/
-Werkzeug Documentation:  http://werkzeug.pocoo.org/documentation/
-
-This file creates your application.
-"""
+#!/usr/bin/python
 
 import os
+
 from flask import Flask, render_template, request, redirect, url_for
+from flask.ext.sqlalchemy import SQLAlchemy
+
 
 app = Flask(__name__)
+#app.config.from_envvar('APP_SETTINGS')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///site.db')
+db = SQLAlchemy(app)
 
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'this_should_be_configured')
-
-
-###
-# Routing for your application.
-###
+class User(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.String(100))
+  email = db.Column(db.String(100))
+  def __init__(self, name, email):
+    self.name = name
+    self.email = email
 
 @app.route('/')
-def home():
-    """Render website's home page."""
-    return render_template('home.html')
+def index():
+  return render_template('index.html', users = User.query.all())
 
-
-@app.route('/about/')
-def about():
-    """Render the website's about page."""
-    return render_template('about.html')
-
-
-###
-# The functions below should be applicable to all Flask apps.
-###
-
-@app.route('/<file_name>.txt')
-def send_text_file(file_name):
-    """Send your static text file."""
-    file_dot_text = file_name + '.txt'
-    return app.send_static_file(file_dot_text)
-
-
-@app.after_request
-def add_header(response):
-    """
-    Add headers to both force latest IE rendering engine or Chrome Frame,
-    and also to cache the rendered page for 10 minutes.
-    """
-    response.headers['X-UA-Compatible'] = 'IE=Edge,chrome=1'
-    response.headers['Cache-Control'] = 'public, max-age=600'
-    return response
-
-
-@app.errorhandler(404)
-def page_not_found(error):
-    """Custom 404 page."""
-    return render_template('404.html'), 404
-
+@app.route('/user', methods=['POST'])
+def user():
+  if request.method == 'POST':
+    u = User(request.form['name'], request.form['email'])
+    db.session.add(u)
+    db.session.commit()
+  return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+  db.create_all()
+  port = int(os.environ.get('PORT', 5000))
+  app.run(host='0.0.0.0', port=port)
