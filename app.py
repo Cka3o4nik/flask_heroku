@@ -6,14 +6,14 @@ from flask import Flask, render_template, request, redirect, url_for
 #from flask.ext.pymongo import PyMongo
 
 from flask.ext.script import Manager, Server
-from mongoengine import Document, StringField
+from mongoengine import connect, Document, StringField
 #from tumblelog import app
 
 
 app = Flask(__name__)
 #app.config.from_envvar('APP_SETTINGS')
-app.config['MONGO_URI'] = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/flask_test')
-#mongo = PyMongo(app)
+#app.config['MONGO_URI'] = os.environ.get('MONGO_URL', 'mongodb://localhost:27017/flask_test')
+connect('flask_test')
  
 class User(Document):
     email = StringField(required=True)
@@ -30,8 +30,11 @@ class User(Document):
 
 @app.route('/')
 def index():
-	return render_template('index.html')
-#  return render_template('index.html', users = User.query.all())
+  return render_template('base.html')
+
+@app.route('/login')
+def login():
+  return render_template('index.html', users = User.objects)
 
 @app.route('/user', methods=['POST'])
 def user():
@@ -41,6 +44,10 @@ def user():
 		mongo.db.session.commit()
 
 	return redirect(url_for('index'))
+
+@app.route('/ross')
+def ross():
+	ross = User(email='ross@example.com', first_name='Ross', last_name='Lawley').save()
 
 
 if __name__ == '__main__':
@@ -55,4 +62,4 @@ if __name__ == '__main__':
 	)
 
 	port = int(os.environ.get('PORT', 5000))
-	app.run(host='0.0.0.0', port=port)
+	app.run(host='0.0.0.0', port=port, debug=True)
