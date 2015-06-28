@@ -1,15 +1,120 @@
-{% macro render_field(field) %}
-<p>
-  {{ field.label }}
-  <br />
-  {{ field(**kwargs)|safe }}
-  {% if field.errors %}
-  <br />
-    <ul class="errors">
-    {% for error in field.errors %}
-      <li>{{ error }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-</p>
-{% endmacro %}
+{#
+{% load i18n %}
+#}
+
+{#
+{% macro (name, value='', caller='') -%}
+{%- endmacro %}
+#}
+
+{% macro field_label(field, render_label_hint=True) -%}
+	{# % if not field.type == "HiddenField" % #}
+		{% if render_label_hint and field.help_text %}
+			<a href="#" rel="popover" data-placement="right" data-html="true" style="color: inherit"
+				data-title='{{ field.label(class="col-sm-2 control-label") }}' data-content='{{ field.help_text }}' data-trigger="hover" tabindex="-1">
+		{% endif %}
+
+{#		{{ field.label(class="col-sm-2 control-label") }} #}
+		<label class="control-label col-sm-3" for="{{ field.label.field_id }}">{{ field.label.text }}
+
+				{% if field.flags.required %}
+				<a href="#" class="apop" rel="tooltip" data-placement="right" data-original-title="{{ _('Required field') }}" tabindex="-1">
+			{#			<span class="req_field_mark"> *</span> #}
+						 *
+				{% endif %}
+				</a>
+		</label>
+		
+		{% if render_label_hint and field.help_text %} </a> {% endif %}
+	{# % endif % #}
+
+
+	{% if field.help_text %}</a>{% endif %}
+{%- endmacro %}
+
+{% macro render_field(field) -%}
+	{% set visible_field = field.type not in ("HiddenField", "CSRFTokenField") %}
+	<div class="form-group has-feedback {% if field.errors %}has-error{% endif %}">
+		{% if visible_field %}
+					{% if field.errors %}
+		{#						<a name="error_field"></a>#}
+								{% for err in field.errors %}
+									<label class="control-label" for="inputError"> <strong>{{ err }}</strong> </label>
+								{% endfor %}
+								<br>
+					{% endif %}
+
+				{% if not field.is_checkbox %}
+					{{ field_label(field, render_label_hint=False) }}
+{#					<span>:</span> <br>#}
+					{% if field.help_text %}
+						<a rel="popover" data-placement="right" data-trigger="hover" 
+							data-html="true" data-title='{{ field.label }}' data-content='{{ field.help_text }}' tabindex="-1">
+					{% endif %}
+
+				{% endif %}
+		{% endif %}
+
+		<div class="col-xs-5">
+			{{ field(class_="form-control") }}
+
+			{% if visible_field and field.errors %}
+				<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+				<span class="sr-only">(error)</span>
+			{% endif %}
+		</div>
+
+		{% if field.is_checkbox %}
+			{% if visible_field %}
+				{{ field_label(field, render_label_hint=True) }}
+				<br>
+
+				{#
+				{% if field.help_text %}
+					<a href="#" rel="popover" data-placement="right" data-html="true" style="color: inherit"
+						data-title='{{ field.label }}' data-content='{{ field.help_text }}' data-trigger="hover" tabindex="-1">
+				{% endif %}
+				{{ field.label_tag }}
+
+				{% if field.help_text %} </a> {% endif %}
+				#}
+			{% endif %}
+		{% else %}
+			{% if field.help_text %}</a>{% endif %}
+		{% endif %}
+
+
+		{% if visible_field and field.errors %}
+		{% endif %}				
+	</div>
+{%- endmacro %}
+
+{% macro render_form(form) -%}
+	{% for field in form %}
+		{% if form.field_errors %}
+		{% endif %}				
+
+		{% if field.type != "CSRFTokenField" %}
+			{% if not field.name in excluded %}
+				{% if not field.type == "HiddenField" %}<p>{% endif %}				
+
+				{{ render_field(field) }}
+				{#% include "field(field=field tag_error= %#}
+
+				{% if not field.type == "HiddenField" %}</p>{% endif %}				
+			{% endif %}				
+		{% endif %}
+	{% endfor %}
+{%- endmacro %}
+
+{% macro single_form(form, action=None, method='POST', enctype='multipart/form-data', size=20) -%}
+	<span class="help-block">{{ _('Required fields marked by *') }}<span class="req_field_mark"> *</span></span>
+	<form class="form-horizontal" method="{{ method }}" {% if action %}action="{{ action }}"{% endif %} enctype="multipart/form-data">
+		{{ form.csrf_token }}
+		{{ render_form(form) }}
+		<div class="form-actions">
+		{% if caller %}{{ caller() }}{% endif %}
+			<input type="submit" class="btn btn-primary default-submit" value="{{_('Готово')}}" />
+		</div>
+	</form>
+{%- endmacro %}
