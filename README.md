@@ -1,7 +1,7 @@
 Flask Heroku
 ============
 
-<pre><code>Flask-Heroku with user registration and authentication and Mongo as DB, based on github.com/Cka3o4nik/flask_heroku
+<pre><code>Flask-Heroku with user registration and authentication and Mongo as DB (mongoengine branch), based on github.com/Cka3o4nik/flask_heroku
 
     github.com/Cka3o4nik/flask_heroku
 
