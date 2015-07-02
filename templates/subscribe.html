@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block head %}
+  <meta name="Keywords" content="">
+	<meta name="Description" content=""/>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+	<p>
+		<div class="container">
+			<div class="row clearfix">
+				<div class="col-md-12 column">
+					<div class="jumbotron">
+						<h1>
+							Your project
+						</h1>
+
+						<!--div class="col-sm-6 col-md-4"-->
+						<div class="col-sm-6 col-md-4">
+							<div class="thumbnail">
+								<img src="/static/img/quality_verified.jpg">
+							</div>
+						</div>
+
+						<p>
+						</p>
+						<p>
+{#							<form class="form-inline" action="{{ url_for('subscribe') }}" method="post">#}
+							<form class="form-inline" action="/subscribe#msg" method="post">
+								<div class="from-group">
+									<input type='text' class="form-control" name='name' placeholder='Name' value='{{name}}'>
+									&nbsp;
+									{% if msg %}
+										<a name="msg" />
+										<div class="form-group has-error has-feedback">
+										<label class="control-label" for="email">{{msg}}</label>
+									{% endif %}
+										<input type='text' class="form-control" aria-describedby="emailStatus" name='email' id='email' 
+											placeholder='Email...' value='{{email}}'>
+									{% if msg %}
+										<span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+										<span id="inputError2Status" class="sr-only">(error)</span>
+									</div>
+									{% endif %}
+									<button type='submit' class="btn btn-primary" value="">Submit</button>
+								</div>
+							</form>
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</p>
+{% endblock %}

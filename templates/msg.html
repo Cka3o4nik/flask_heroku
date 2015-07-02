@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+		<p>
+			<div class="container">
+				<div class="row clearfix">
+					<div class="col-md-12 column">
+						<div class="jumbotron">
+							<h1>
+								Your project
+							</h1>
+							<p>
+								{% block msg %}
+									{{ msg }}
+								{% endblock %}
+							</p>
+							<p>
+								<a class="btn btn-primary btn-large" href="/">ОК</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</p>
+{% endblock %}

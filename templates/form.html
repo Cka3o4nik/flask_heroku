@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+
+{% block js %}
+{% endblock %}
+
+
+{% block main %}
+		<p>
+			<div class="container">
+				<div class="row clearfix">
+					<div class="col-md-12 column">
+						<div class="jumbotron">
+							<p>
+								{% from "_form_helpers.html" import single_form %}
+								{{ single_form(form, title) }}
+{#
+								<form method=post action="{{action}}">
+									{% for field in form %}
+										{{ render_field(field) }}
+									{% endfor %}	
+									<p><input type=submit value=Register>
+								</form> #}
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</p>
+{% endblock %}
