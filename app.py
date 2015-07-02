@@ -15,7 +15,7 @@ import users as u
 mongo_uri=os.environ.get('MONGODB_URI', 'mongodb://127.0.0.1/<db name>')
 app = flask.Flask(__name__)
 app.config.update({
-	'SECRET_KEY': '',
+	'SECRET_KEY': '<replace to your_project_secret>',
 	'BABEL_DEFAULT_LOCALE': 'en',
 	'MONGODB_SETTINGS': {
 		'host': mongo_uri,

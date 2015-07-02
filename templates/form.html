@@ -11,12 +11,9 @@
 				<div class="row clearfix">
 					<div class="col-md-12 column">
 						<div class="jumbotron">
-							<h1>
-								Your project
-							</h1>
 							<p>
 								{% from "_form_helpers.html" import single_form %}
-								{{ single_form(form) }}
+								{{ single_form(form, title) }}
 {#
 								<form method=post action="{{action}}">
 									{% for field in form %}

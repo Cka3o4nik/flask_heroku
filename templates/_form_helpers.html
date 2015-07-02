@@ -1,6 +1,4 @@
-{#
-{% load i18n %}
-#}
+# -*- coding: utf-8 -*-
 
 {#
 {% macro (name, value='', caller='') -%}
@@ -15,7 +13,7 @@
 		{% endif %}
 
 {#		{{ field.label(class="col-sm-2 control-label") }} #}
-		<label class="control-label col-sm-3" for="{{ field.label.field_id }}">{{ field.label.text }}
+		<label class="control-label col-sm-2" for="{{ field.label.field_id }}">{{ field.label.text }}
 
 				{% if field.flags.required %}
 				<a href="#" class="apop" rel="tooltip" data-placement="right" data-original-title="{{ _('Required field') }}" tabindex="-1">
@@ -65,6 +63,7 @@
 		</div>
 
 		{% if field.is_checkbox %}
+{#		CHECKBOX!!! #}
 			{% if visible_field %}
 				{{ field_label(field, render_label_hint=True) }}
 				<br>
@@ -107,14 +106,15 @@
 	{% endfor %}
 {%- endmacro %}
 
-{% macro single_form(form, action=None, method='POST', enctype='multipart/form-data', size=20) -%}
-	<span class="help-block">{{ _('Required fields marked by *') }}<span class="req_field_mark"> *</span></span>
+{% macro single_form(form, title, action=None, method='POST', enctype='multipart/form-data', size=20) -%}
+	<h1>{{title}}</h1>
+	<span class="help-block">{{ _('Required fields marked') }}<span class="req_field_mark"> *</span></span>
 	<form class="form-horizontal" method="{{ method }}" {% if action %}action="{{ action }}"{% endif %} enctype="multipart/form-data">
 		{{ form.csrf_token }}
 		{{ render_form(form) }}
 		<div class="form-actions">
 		{% if caller %}{{ caller() }}{% endif %}
-			<input type="submit" class="btn btn-primary default-submit" value="{{_('Готово')}}" />
+			<input type="submit" class="btn btn-primary default-submit" value="{{_('OK')}}" />
 		</div>
 	</form>
 {%- endmacro %}
