@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-07-02 20:44+0300\n"
+"POT-Creation-Date: 2015-07-02 20:57+0300\n"
 "PO-Revision-Date: 2015-07-02 19:51+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: ru <LL@li.org>\n"
@@ -18,13 +18,21 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
+#: templates/404.html:3 templates/404.html:7
+msgid "Page not found"
+msgstr "Страница не найдена"
+
+#: templates/404.html:8
+msgid "Go to home?"
+msgstr "Перейти на главную?"
+
 #: templates/_form_helpers.html:19
 msgid "Required field"
 msgstr "Обязательное поле"
 
 #: templates/_form_helpers.html:111
 msgid "Required fields marked"
-msgstr "Обязательные для заполнения поля отмечены"
+msgstr "Обязательные поля отмечены"
 
 #: templates/_form_helpers.html:117
 msgid "OK"
@@ -76,3 +84,4 @@ msgstr "Я согласен с правилами использования"
 
 #~ msgid "Качество-бензина.рф"
 #~ msgstr ""
+
